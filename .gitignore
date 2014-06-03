@@ -1,0 +1,6 @@
+[Oo]bj/
+*.o
+*.depend
+*.layout
+Thumbs.db
+Desktop.ini
