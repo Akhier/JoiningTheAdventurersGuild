@@ -1,22 +1,70 @@
 #include "libtcod.hpp"
 int main() {
-    int playerx=40,playery=25;
-    TCODConsole::initRoot(80,50,"libtcod C++ tutorial",false);
+    TCODConsole::initRoot(80,50,"Joining The Adventurers Guild",false);
+    return MainScreen();
+}
+
+int MainScreen() {
     bool done = false;
-    while ( !done ) {
-        TCOD_key_t key;
-        TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS,&key,NULL);
-        switch(key.vk) {
-            case TCODK_UP : playery--; break;
-            case TCODK_DOWN : playery++; break;
-            case TCODK_LEFT : playerx--; break;
-            case TCODK_RIGHT : playerx++; break;
-            case TCODK_ESCAPE : done = true; break;
-            default:break;
+    while (!done) {
+        drawScreen(&mainscreen);
+        handleInput();
+        //MainScreen Logic
+        int gameoutput;
+        if (gamestart) {
+            gameoutput = GameScreen(randseed);
         }
-        TCODConsole::root->clear();
-        TCODConsole::root->putChar(playerx,playery,'@');
-        TCODConsole::flush();
+        if (gameload) {
+            gameoutput = GameScreen(levelseed);
+        }
+        if (gameoutput > 0) {
+            setLoadSlot(gameoutput);
+        }
+        if (quit || gameoutput == -1) {
+            done = true;
+        }
     }
-    return 0;
+    return 1;
+}
+
+int GameScreen(int seed) {
+    bool ingame = true;
+    int gameoutput = 0;
+    while (ingame) {
+        drawScreen(&gamescreen);
+        handleInput();
+        //GameScreen Logic
+        int pauseoutput
+        if (paused) {
+            pauseoutput = PauseScreen(&gamescreen);
+        }
+        if (pauseoutput == 1) {
+            gameoutput = level;
+            ingame = false;
+        }
+        if (gameover || pauseoutput == -1) {
+            gameoutput = -1;
+            ingame = false;
+        }
+    }
+    return gameoutput;
+}
+
+int PauseScreen(/*some map or custom struct*/ &gamescreen) {
+    bool paused = true;
+    int pauseoutput = 0;
+    while (paused) {
+        drawScreen(&pausescreen);
+        handleInput();
+        //PauseScreen Logic
+        if (quitgame) {
+            pauseoutput = -1;
+            paused = false;
+        }
+        if (savegame) {
+            pauseoutput = 1;
+            paused = false;
+        }
+    }
+    return pauseoutput;
 }
