@@ -50,7 +50,7 @@ int GameScreen(int seed) {
     return gameoutput;
 }
 
-int PauseScreen(/*some map or custom struct*/ &gamescreen) {
+int PauseScreen(const /*some map or custom struct*/ &gamescreen) {
     bool paused = true;
     int pauseoutput = 0;
     while (paused) {
