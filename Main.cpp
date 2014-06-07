@@ -1,4 +1,7 @@
 #include "libtcod.hpp"
+#include "S_Tile.h"
+const int WINDOW_WIDTH = 80, WINDOW_HEIGHT = 50;
+
 int getInput(bool menuscheme) {
     TCOD_key_t key = TCODConsole::checkForKeypress();
     if (menuscheme){
@@ -37,12 +40,62 @@ int getInput(bool menuscheme) {
     }
 }
 
+void drawScreen(const Tile screen[][WINDOW_HEIGHT]) {
+    TCODConsole::root->clear();
+    for (int column = 0; column < WINDOW_HEIGHT; ++column){
+        for (int row = 0; row < WINDOW_WIDTH; ++row){
+            TCODConsole::root->putCharEx(row, column, screen[row][column].Symbol, screen[row][column].foreColor, screen[row][column].backColor);
+        }
+    }
+    TCODConsole::flush();
+}
+
+int PauseScreen(const Tile gamescreen[][WINDOW_HEIGHT]) {
+    bool paused = true;
+    int pauseoutput = 0;
+    while (paused) {
+        int inputcode = getInput(true);
+        if (quitgame) {
+            pauseoutput = -1;
+            paused = false;
+        }
+        if (savegame) {
+            pauseoutput = 1;
+            paused = false;
+        }
+        //PauseScreen Logic
+        drawScreen(&pausescreen);
+    }
+    return pauseoutput;
+}
+
+int GameScreen(int seed) {
+    bool ingame = true;
+    int gameoutput = 0;
+    while (ingame) {
+        int inputcode = getInput(false);
+        int pauseoutput;
+        if (paused) {
+            pauseoutput = PauseScreen(&gamescreen);
+        }
+        if (pauseoutput == 1) {
+            gameoutput = level;
+            ingame = false;
+        }
+        if (gameover || pauseoutput == -1) {
+            gameoutput = -1;
+            ingame = false;
+        }
+        //GameScreen Logic
+        drawScreen(&gamescreen);
+    }
+    return gameoutput;
+}
+
 int MainScreen() {
     bool done = false;
     while (!done) {
-        drawScreen(&mainscreen);
         int inputcode = getInput(true);
-        //MainScreen Logic
         int gameoutput;
         if (gamestart) {
             gameoutput = GameScreen(randseed);
@@ -56,53 +109,13 @@ int MainScreen() {
         if (quit || gameoutput == -1) {
             done = true;
         }
+        //MainScreen Logic
+        drawScreen(&mainscreen);
     }
     return 1;
 }
 
-int GameScreen(int seed) {
-    bool ingame = true;
-    int gameoutput = 0;
-    while (ingame) {
-        drawScreen(&gamescreen);
-        int inputcode = getInput(false);
-        //GameScreen Logic
-        int pauseoutput
-        if (paused) {
-            pauseoutput = PauseScreen(&gamescreen);
-        }
-        if (pauseoutput == 1) {
-            gameoutput = level;
-            ingame = false;
-        }
-        if (gameover || pauseoutput == -1) {
-            gameoutput = -1;
-            ingame = false;
-        }
-    }
-    return gameoutput;
-}
-
-int PauseScreen(const /*some map or custom struct*/ &gamescreen) {
-    bool paused = true;
-    int pauseoutput = 0;
-    while (paused) {
-        drawScreen(&pausescreen);
-        int inputcode = getInput(true);
-        //PauseScreen Logic
-        if (quitgame) {
-            pauseoutput = -1;
-            paused = false;
-        }
-        if (savegame) {
-            pauseoutput = 1;
-            paused = false;
-        }
-    }
-    return pauseoutput;
-}
-
 int main() {
-    TCODConsole::initRoot(80,50,"Joining The Adventurers Guild",false);
+    TCODConsole::initRoot(WINDOW_WIDTH,WINDOW_HEIGHT,"Joining The Adventurers Guild",false);
     return MainScreen();
 }

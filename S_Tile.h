@@ -2,9 +2,9 @@
 #define S_TILE
 
 struct Tile {
-    char Symbol = '.';
-    TCODColor foreColor = TCODColor.white;
-    TCODColor backColor = new TCODColor(15,15,15);
+    char Symbol = ' ';
+    TCODColor foreColor = TCODColor::lightestGrey;
+    TCODColor backColor = TCODColor(15,15,15);
 };
 
 #endif
