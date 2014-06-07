@@ -55,6 +55,7 @@ int PauseScreen(const Tile gamescreen[][WINDOW_HEIGHT]) {
     int pauseoutput = 0;
     while (paused) {
         int inputcode = getInput(true);
+        //PauseScreen Logic
         if (quitgame) {
             pauseoutput = -1;
             paused = false;
@@ -63,7 +64,6 @@ int PauseScreen(const Tile gamescreen[][WINDOW_HEIGHT]) {
             pauseoutput = 1;
             paused = false;
         }
-        //PauseScreen Logic
         drawScreen(&pausescreen);
     }
     return pauseoutput;
@@ -75,6 +75,7 @@ int GameScreen(int seed) {
     while (ingame) {
         int inputcode = getInput(false);
         int pauseoutput;
+        //GameScreen Logic
         if (paused) {
             pauseoutput = PauseScreen(&gamescreen);
         }
@@ -86,7 +87,6 @@ int GameScreen(int seed) {
             gameoutput = -1;
             ingame = false;
         }
-        //GameScreen Logic
         drawScreen(&gamescreen);
     }
     return gameoutput;
@@ -97,6 +97,7 @@ int MainScreen() {
     while (!done) {
         int inputcode = getInput(true);
         int gameoutput;
+        //MainScreen Logic
         if (gamestart) {
             gameoutput = GameScreen(randseed);
         }
@@ -109,7 +110,6 @@ int MainScreen() {
         if (quit || gameoutput == -1) {
             done = true;
         }
-        //MainScreen Logic
         drawScreen(&mainscreen);
     }
     return 1;

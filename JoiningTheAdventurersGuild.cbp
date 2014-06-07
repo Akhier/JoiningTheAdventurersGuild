@@ -39,6 +39,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="Main.cpp" />
+		<Unit filename="S_Tile.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
