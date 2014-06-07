@@ -116,6 +116,6 @@ int MainScreen() {
 }
 
 int main() {
-    TCODConsole::initRoot(WINDOW_WIDTH,WINDOW_HEIGHT,"Joining The Adventurers Guild",false);
+    TCODConsole::initRoot(WINDOW_WIDTH, WINDOW_HEIGHT, "Joining The Adventurers Guild", false);
     return MainScreen();
 }
