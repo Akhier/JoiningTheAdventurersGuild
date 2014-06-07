@@ -1,11 +1,38 @@
 #include "libtcod.hpp"
-int handleInput(bool menuscheme) {
-    TCOD_key_t key = TCODConsole::checkForKeypress()
+int getInput(bool menuscheme) {
+    TCOD_key_t key = TCODConsole::checkForKeypress();
     if (menuscheme){
-
+        if (key.vk == TCODK_ENTER || key.vk == TCODK_KPENTER) {
+            return 0;
+        }
+        else if (key.vk == TCODK_ESCAPE || TCODK_BACKSPACE) {
+            return 1;
+        }
+        else if (key.vk == TCODK_DOWN || key.vk == TCODK_KP2) {
+            return 2;
+        }
+        else if (key.vk == TCODK_UP || key.vk == TCODK_KP8) {
+            return 3;
+        }
+        else {
+            return -1;
+        }
     }
     else {
-        switch(key) {
+        switch(key.vk) {
+            case TCODK_ESCAPE:
+                return 0;
+                break;
+            case TCODK_CHAR:
+                switch (key.c) {
+                    default:
+                        return -1;
+                        break;
+                }
+                break;
+            default:
+                return -1;
+                break;
         }
     }
 }
@@ -14,7 +41,7 @@ int MainScreen() {
     bool done = false;
     while (!done) {
         drawScreen(&mainscreen);
-        int inputcode = handleInput(true);
+        int inputcode = getInput(true);
         //MainScreen Logic
         int gameoutput;
         if (gamestart) {
@@ -38,7 +65,7 @@ int GameScreen(int seed) {
     int gameoutput = 0;
     while (ingame) {
         drawScreen(&gamescreen);
-        int inputcode = handleInput(false);
+        int inputcode = getInput(false);
         //GameScreen Logic
         int pauseoutput
         if (paused) {
@@ -61,7 +88,7 @@ int PauseScreen(const /*some map or custom struct*/ &gamescreen) {
     int pauseoutput = 0;
     while (paused) {
         drawScreen(&pausescreen);
-        int inputcode = handleInput(true);
+        int inputcode = getInput(true);
         //PauseScreen Logic
         if (quitgame) {
             pauseoutput = -1;
