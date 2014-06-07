@@ -4,11 +4,15 @@ int main() {
     return MainScreen();
 }
 
+int handleInput(bool menuscheme) {
+
+}
+
 int MainScreen() {
     bool done = false;
     while (!done) {
         drawScreen(&mainscreen);
-        handleInput(true);
+        int inputcode = handleInput(true);
         //MainScreen Logic
         int gameoutput;
         if (gamestart) {
@@ -32,7 +36,7 @@ int GameScreen(int seed) {
     int gameoutput = 0;
     while (ingame) {
         drawScreen(&gamescreen);
-        handleInput(false);
+        int inputcode = handleInput(false);
         //GameScreen Logic
         int pauseoutput
         if (paused) {
@@ -55,7 +59,7 @@ int PauseScreen(const /*some map or custom struct*/ &gamescreen) {
     int pauseoutput = 0;
     while (paused) {
         drawScreen(&pausescreen);
-        handleInput(true);
+        int inputcode = handleInput(true);
         //PauseScreen Logic
         if (quitgame) {
             pauseoutput = -1;
