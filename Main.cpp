@@ -1,11 +1,13 @@
 #include "libtcod.hpp"
-int main() {
-    TCODConsole::initRoot(80,50,"Joining The Adventurers Guild",false);
-    return MainScreen();
-}
-
 int handleInput(bool menuscheme) {
+    TCOD_key_t key = TCODConsole::checkForKeypress()
+    if (menuscheme){
 
+    }
+    else {
+        switch(key) {
+        }
+    }
 }
 
 int MainScreen() {
@@ -71,4 +73,9 @@ int PauseScreen(const /*some map or custom struct*/ &gamescreen) {
         }
     }
     return pauseoutput;
+}
+
+int main() {
+    TCODConsole::initRoot(80,50,"Joining The Adventurers Guild",false);
+    return MainScreen();
 }
