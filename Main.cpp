@@ -1,5 +1,6 @@
 #include "libtcod.hpp"
 #include "S_Tile.h"
+
 const int WINDOW_WIDTH = 80, WINDOW_HEIGHT = 50;
 
 int getInput(bool menuscheme) {
