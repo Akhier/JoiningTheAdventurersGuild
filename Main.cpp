@@ -1,7 +1,7 @@
 #include "libtcod.hpp"
 #include "S_Tile.h"
 
-const int WINDOW_WIDTH = 80, WINDOW_HEIGHT = 50;
+const int WINDOW_WIDTH = 80, WINDOW_HEIGHT = 40;
 
 int getInput(bool menuscheme) {
     TCOD_key_t key = TCODConsole::checkForKeypress();
